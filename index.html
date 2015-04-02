@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Swog, Swift + Log by juliengdt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Swog, Swift + Log</h1>
+      <h2 class="project-tagline">A debug log framework for use in Swift projects, mainly based on XCGLogger by @DaveWoodX, but more lighter and more convenient</h2>
+      <a href="https://github.com/juliengdt/Swog" class="btn">View on GitHub</a>
+      <a href="https://github.com/juliengdt/Swog/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/juliengdt/Swog/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="swog-a-fork-of-xcglogger" class="anchor" href="#swog-a-fork-of-xcglogger" aria-hidden="true"><span class="octicon octicon-link"></span></a>Swog, a fork of <a href="https://github.com/DaveWoodCom/XCGLogger">XCGLogger</a>
+</h1>
+
+<h5>
+<a id="by-julien-gdt" class="anchor" href="#by-julien-gdt" aria-hidden="true"><span class="octicon octicon-link"></span></a>By: Julien Gdt</h5>
+
+<h3>
+<a id="tldr" class="anchor" href="#tldr" aria-hidden="true"><span class="octicon octicon-link"></span></a>tl;dr</h3>
+
+<p>A debug log module for use in Swift projects. Allows you to log details to the console (and optionally a file), just like you would have with NSLog or println, but with additional information such as the date, function name, filename and line number.</p>
+
+<h3>
+<a id="tldr-bis" class="anchor" href="#tldr-bis" aria-hidden="true"><span class="octicon octicon-link"></span></a>tl;dr Bis</h3>
+
+<p>Forked from <a href="https://github.com/DaveWoodCom/XCGLogger">XCGLogger</a>, which is a good solution but not perfect for me and for a team usage.</p>
+
+<p>Go from this:</p>
+
+<p><code>Simple message</code></p>
+
+<p>to this:</p>
+
+<p><code>[DEBUG] [AppDelegate - 40] application(_:didFinishLaunchingWithOptions:): Simple message</code></p>
+
+<h3>
+<a id="compatibility" class="anchor" href="#compatibility" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compatibility</h3>
+
+<p>XCGLogger works in both iOS and OS X projects. It is a Swift library intended for use in Swift projects.</p>
+
+<p>Swift does away with the C preprocessor, which kills the ability to use <code>#define</code> macros. This means our traditional way of generating nice debug logs is dead. Resorting to just plain old <code>println</code> calls means you lose a lot of helpful information, or requires you to type a lot more code.</p>
+
+<p><strong>Note:</strong> There are a few differences in Swift between 1.0 (Xcode 6) and 1.1 (Xcode 6.1), the code in this repo should work on (and will be updated for) the latest version of Swift by default. If you're using Xcode 6.0.1, I've added a file <code>XCGLogger_Xcode601.swift</code> to the project that makes XCGLogger backwards compatible. You just need to include the file in the three targets: XCGLogger (iOS), XCGLogger (OS X), and XCGLoggerTests in the XCGLogger project.</p>
+
+<h3>
+<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to Use</h3>
+
+<p>3 ways to use it:</p>
+
+<ul>
+<li>Simple Logging</li>
+<li>Levelled Developer Logging</li>
+<li>Lifecycle Logging</li>
+</ul>
+
+<h4>
+<a id="simple-logging" class="anchor" href="#simple-logging" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simple Logging</h4>
+
+<p>Because println is so ugly; put a Swog like this</p>
+
+<pre><code>Swog("Foo")
+</code></pre>
+
+<p>to get this:</p>
+
+<pre><code>Foo
+</code></pre>
+
+<h4>
+<a id="levelled-developer-logging" class="anchor" href="#levelled-developer-logging" aria-hidden="true"><span class="octicon octicon-link"></span></a>Levelled Developer Logging</h4>
+
+<p>80% of the Swog usage. 4 levels of logging:</p>
+
+<ul>
+<li>DEBUG</li>
+<li>INFO</li>
+<li>WARN</li>
+<li>ERROR</li>
+</ul>
+
+<p>You can use it like this</p>
+
+<pre><code>Swog.info("wanna info !")
+Swog.error("wanna error !")
+</code></pre>
+
+<p>to get this:</p>
+
+<pre><code>[INFO] [ViewController: 17] viewDidLoad(): wanna info !
+[ERRO] [ViewController: 18] viewDidLoad(): wanna error !
+</code></pre>
+
+<h4>
+<a id="lifecycle-logging" class="anchor" href="#lifecycle-logging" aria-hidden="true"><span class="octicon octicon-link"></span></a>LifeCycle Logging</h4>
+
+<p>Because I just want to know the lifecycle directly in my Logs, just put:</p>
+
+<pre><code>Swog.Lifecycle()
+</code></pre>
+
+<p>in the beginning of each of your class (for ex viewWillAppear:) to get this:</p>
+
+<pre><code>#[ViewController] - viewWillAppear
+</code></pre>
+
+<h3>
+<a id="to-do" class="anchor" href="#to-do" aria-hidden="true"><span class="octicon octicon-link"></span></a>To Do</h3>
+
+<ul>
+<li>Add able to enable color logging </li>
+<li>Maybe add crash log save file</li>
+</ul>
+
+<h3>
+<a id="change-log" class="anchor" href="#change-log" aria-hidden="true"><span class="octicon octicon-link"></span></a>Change Log</h3>
+
+<p>TODO !</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/juliengdt/Swog">Swog, Swift + Log</a> is maintained by <a href="https://github.com/juliengdt">juliengdt</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
+
